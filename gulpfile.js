@@ -16,7 +16,7 @@ var paths = {
 				cwd: './src',
 
 				pug: {
-					watch: 'src/**/*.pug'
+					watch: 'src/**/*.pug',
 					src: 'src/*.pug',
 					dest: './'
 				},

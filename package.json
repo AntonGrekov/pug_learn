@@ -33,13 +33,5 @@
   },
   "dependencies": {
     "onscroll-effect": "^1.1.1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/AntonGrekov/radix.git"
-  },
-  "bugs": {
-    "url": "https://github.com/AntonGrekov/radix/issues"
-  },
-  "homepage": "https://github.com/AntonGrekov/radix#readme"
+  }
 }
