@@ -13,22 +13,24 @@ var gulp 					= require("gulp"),
 
 var paths = {
 
-				cwd: './src',
+				cwd: './dist',
 
 				pug: {
 					watch: 'src/**/*.pug',
 					src: 'src/*.pug',
-					dest: './'
+					dest: 'dist/'
 				},
 
 				styles: {
-					src: 'app/sass/**/*.+(sass|scss)',  	
-					dest: 'app/css/'
+					src: 'src/sass/**/*.+(sass|scss)',  	
+					dest: 'dist/css/'
 				}, 
 
 				js: {
-					src: ['app/js/*.js', '!app/js/*.min.js'],
-					dest: 'app/js'
+					cwd: 'src/js',
+					srcUgl: ['src/js/*.js', '!src/js/*.min.js'],
+					srcComp: 'src/js/*.min.js',
+					dest: 'dist/js'
 				}
 
 }
@@ -67,7 +69,7 @@ gulp.task('sass', () => {
 
 
 gulp.task('uglify', function() {
-	return gulp.src(paths.js.src)
+	return gulp.src(paths.js.srcUgl)
 		   .pipe(uglifyJs())
 		   .on('error', function (err) {
 				console.error('Error in js task', err.toString());
@@ -75,12 +77,12 @@ gulp.task('uglify', function() {
 		   .pipe(rename(function(path) {
 			   path.basename += ".min"
 		   }))
-		   .pipe(gulp.dest('app/js/'))
+		   .pipe(gulp.dest(paths.js.cwd))
 		   .pipe(browserSync.reload({ stream: true }));
 })
 
 gulp.task('compress', gulp.series('uglify', () => {
-	return gulp.src(['js/*.min.js', '!js/all.min.js'])
+	return gulp.src(paths.js.srcComp)
 		   .pipe(concat('all.min.js'))
 		   .pipe(gulp.dest(paths.js.dest))
 }));
@@ -105,8 +107,9 @@ gulp.task('watch', gulp.parallel('server', function () {
 	 gulp.watch('app/*.html', reloadHTML);
 	 gulp.watch(paths.styles.src, gulp.series('sass'));
 	 gulp.watch(paths.js.src, gulp.series('compress'));
-	 gulp.watch(paths.pug.src, gulp.series('pug'));
- 	 gulp.watch('app/bower_components/jquery/dist/jquery.js', gulp.series('build_jquery'));
+	 gulp.watch(paths.pug.watch, gulp.series('pug'));
+	 gulp.watch('app/bower_components/jquery/dist/jquery.js', gulp.series('build_jquery'));
+	 gulp.watch(paths.js.srcUgl, gulp.series('compress')); 
  	//  gulp.watch(paths.styles.dest, reloadHTML)
 }));
 
