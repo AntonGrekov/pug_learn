@@ -1,13 +1,13 @@
-var gulp 					= require("gulp"),
+var gulp 						= require("gulp"),
 	browserSync				= require("browser-sync"),
 	// cssNano					= require("cssnano"),
-	sass						= require("gulp-sass"),
-	plumber					= require("gulp-plumber"),
-	gutil						= require("gulp-util"),
-	uglifyJs	    			= require("gulp-uglify-es").default,
-	rename					= require("gulp-rename"),
-	pug						= require("gulp-pug"),	
-	concat					= require("gulp-concat");
+	sass							= require("gulp-sass"),
+	plumber						= require("gulp-plumber"),
+	gutil							= require("gulp-util"),
+	uglifyJs	    		= require("gulp-uglify-es").default,
+	rename						= require("gulp-rename"),
+	pug								= require("gulp-pug"),	
+	concat						= require("gulp-concat");
 
 // Source code paths, build destination, other vars
 
@@ -28,7 +28,7 @@ var paths = {
 
 				js: {
 					cwd: 'src/js',
-					srcUgl: ['src/js/*.js', '!src/js/*.min.js'],
+					src: ['src/js/*.js', '!src/js/*.min.js'],
 					srcComp: 'src/js/*.min.js',
 					dest: 'dist/js'
 				}
@@ -69,7 +69,7 @@ gulp.task('sass', () => {
 
 
 gulp.task('uglify', function() {
-	return gulp.src(paths.js.srcUgl)
+	return gulp.src(paths.js.src)
 		   .pipe(uglifyJs())
 		   .on('error', function (err) {
 				console.error('Error in js task', err.toString());
@@ -109,7 +109,7 @@ gulp.task('watch', gulp.parallel('server', function () {
 	 gulp.watch(paths.js.src, gulp.series('compress'));
 	 gulp.watch(paths.pug.watch, gulp.series('pug'));
 	 gulp.watch('app/bower_components/jquery/dist/jquery.js', gulp.series('build_jquery'));
-	 gulp.watch(paths.js.srcUgl, gulp.series('compress')); 
+	 gulp.watch(paths.js.src, gulp.series('compress')); 
  	//  gulp.watch(paths.styles.dest, reloadHTML)
 }));
 
