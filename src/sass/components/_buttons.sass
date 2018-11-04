@@ -1,0 +1,45 @@
+.btn-main
+   @extend %btn-base
+   color: #fff
+   font-size: 14px
+   padding: 10px 0 13px
+   position: relative
+
+   &:hover
+      color: #fff
+
+   &:hover:before
+      left: -15px
+
+   &:before
+      @extend %pseudo
+      transition: all .5s
+      top: 0
+      left: 15px
+      width: 140%
+      height: 100%
+      background: $color-accent
+      z-index: 0
+      border-radius: 5px
+
+   img
+      display: inline-block
+      margin-left: 15px
+
+   span, img
+      z-index: 2
+      position: relative
+
+   span
+      &:before
+         @extend %pseudo
+         background: orange
+         transition: all .5s
+         width: 80%
+         height: 50%
+         z-index: 1
+         left: -5%
+
+      &:hover:before
+         width: 130%
+         left: -15%
