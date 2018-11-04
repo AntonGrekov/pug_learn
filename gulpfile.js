@@ -78,11 +78,7 @@ gulp.task('sass', () => {
 
 
 gulp.task('uglify', function() {
-<<<<<<< HEAD
-	return gulp.src(paths.js.src)
-=======
 	return gulp.src(paths.js.cwd + "/test.js")
->>>>>>> 61ae2946f4e06ac639e483e0175dde8a794e90f7
 		   .pipe(uglifyJs())
 		   .on('error', function (err) {
 				console.error('Error in js task', err.toString());
@@ -119,13 +115,8 @@ gulp.task('watch', gulp.parallel('server', function () {
 	 gulp.watch(paths.html.src, reloadHTML);
 	 gulp.watch(paths.styles.src, gulp.series('sass'));
 	//  gulp.watch(paths.js.src, gulp.series('compress'));
-	 gulp.watch(paths.pug.watch, gulp.series('pug'));
-<<<<<<< HEAD
-	 gulp.watch('app/bower_components/jquery/dist/jquery.js', gulp.series('build_jquery'));
-	 gulp.watch(paths.js.src, gulp.series('compress')); 
-=======
+	 gulp.watch(paths.pug.watch, gulp.series('pug', reloadHTML));
 	 gulp.watch(paths.js.cwd + "/test.js", gulp.series('build_js')); 
->>>>>>> 61ae2946f4e06ac639e483e0175dde8a794e90f7
  	//  gulp.watch(paths.styles.dest, reloadHTML)
 }));
 
