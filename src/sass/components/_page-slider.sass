@@ -1,0 +1,36 @@
+.page-slide
+   height: 100vh
+   background-color: #000
+   color: #fff
+   display: flex
+
+.page-slide-1-top
+	background: url(../img/introduction-visual.png) top right no-repeat
+	background-size: contain
+	border-bottom: 1px solid rgba(#fff, .1)
+	padding-left: 15px
+	margin-bottom: 35px
+	position: relative
+
+	&:after
+		@extend %pseudo
+		background: $color-accent
+		width: 30px
+		height: 6px
+		bottom: -6px
+		left: 15px
+
+	h1
+		padding-top: 60px
+		max-width: 440px
+		margin-bottom: 55px
+
+	.btn-main
+		margin-bottom: 100px
+
+
+
+
+
+.page-slide-1-bottom
+   padding-left: 15px

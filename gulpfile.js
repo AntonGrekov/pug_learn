@@ -15,6 +15,10 @@ var paths = {
 
 				cwd: './dist',
 
+				html: {
+					src: 'dist/*.html'
+				},
+
 				pug: {
 					watch: 'src/**/*.pug',
 					src: 'src/*.pug',
@@ -48,10 +52,15 @@ gulp.task('server', () => {
 
 gulp.task('pug', (cb) => {
 	gulp.src(paths.pug.src)
+	 .pipe(plumber(function (error) {
+		gutil.log(error.message);
+		this.emit('end');
+	 }))
 	 .pipe(pug({
 		pretty: true
 	 }))
-	 .pipe(gulp.dest(paths.pug.dest));
+	 .pipe(gulp.dest(paths.pug.dest))
+	 .pipe(browserSync.reload({ stream: true }));
 	 cb();
 })	
 
@@ -69,7 +78,11 @@ gulp.task('sass', () => {
 
 
 gulp.task('uglify', function() {
+<<<<<<< HEAD
 	return gulp.src(paths.js.src)
+=======
+	return gulp.src(paths.js.cwd + "/test.js")
+>>>>>>> 61ae2946f4e06ac639e483e0175dde8a794e90f7
 		   .pipe(uglifyJs())
 		   .on('error', function (err) {
 				console.error('Error in js task', err.toString());
@@ -77,24 +90,23 @@ gulp.task('uglify', function() {
 		   .pipe(rename(function(path) {
 			   path.basename += ".min"
 		   }))
-		   .pipe(gulp.dest(paths.js.cwd))
-		   .pipe(browserSync.reload({ stream: true }));
+		   .pipe(gulp.dest(paths.js.cwd));
 })
 
-gulp.task('compress', gulp.series('uglify', () => {
-	return gulp.src(paths.js.srcComp)
-		   .pipe(concat('all.min.js'))
-		   .pipe(gulp.dest(paths.js.dest))
-}));
+
+gulp.task('build_js',  function () {
+	return gulp.src(paths.js.cwd + "/test.js")
+				.pipe(gulp.dest(paths.js.dest))
+		 	   .pipe(browserSync.reload({ stream: true }));
+});
 
 
-gulp.task('build_jquery', function () {
-	return gulp.src('app/bower_components/jquery/dist/jquery.js')
-		.pipe(concat('jquery.min.js'))
-		.pipe(uglify())
-		.pipe(gulp.dest('app/js'))
-		.pipe(browserSync.reload({ stream: true }));
-})
+// gulp.task('compress', gulp.series('uglify', () => {
+// 	return gulp.src(paths.js.srcComp)
+// 		   .pipe(concat('all.min.js'))
+// 		   .pipe(gulp.dest(paths.js.dest))
+// }));
+
 
 
 function reloadHTML(cb) {
@@ -104,12 +116,16 @@ function reloadHTML(cb) {
 
 
 gulp.task('watch', gulp.parallel('server', function () {
-	 gulp.watch('app/*.html', reloadHTML);
+	 gulp.watch(paths.html.src, reloadHTML);
 	 gulp.watch(paths.styles.src, gulp.series('sass'));
-	 gulp.watch(paths.js.src, gulp.series('compress'));
+	//  gulp.watch(paths.js.src, gulp.series('compress'));
 	 gulp.watch(paths.pug.watch, gulp.series('pug'));
+<<<<<<< HEAD
 	 gulp.watch('app/bower_components/jquery/dist/jquery.js', gulp.series('build_jquery'));
 	 gulp.watch(paths.js.src, gulp.series('compress')); 
+=======
+	 gulp.watch(paths.js.cwd + "/test.js", gulp.series('build_js')); 
+>>>>>>> 61ae2946f4e06ac639e483e0175dde8a794e90f7
  	//  gulp.watch(paths.styles.dest, reloadHTML)
 }));
 
